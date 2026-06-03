@@ -1,5 +1,14 @@
 # Neko Void Updater
 
+![Status](https://img.shields.io/badge/status-stable-green)
+
+<img width="900" height="600" alt="image" src="https://github.com/user-attachments/assets/87553c6d-9e8c-4c8a-85d2-341c9c694a32" />
+
+<img width="1275" height="720" alt="image" src="https://github.com/user-attachments/assets/970af72b-f91e-44a2-b89a-c4f1c5e2d0f4" />
+
+<img width="1280" height="720" alt="image" src="https://github.com/user-attachments/assets/b922f8a5-770f-4e2e-970f-b6a7064d0fee" />
+
+
 The Definitive Update Manager for Void Linux
 
 Neko Void Updater is a modern, efficient utility designed for Void Linux users who want an update experience similar to distributions like Linux Mint or Fedora, while maintaining the lightweight nature and granular control of Void.
