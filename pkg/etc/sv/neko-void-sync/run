@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/bin/neko-updater-core --sync-daemon

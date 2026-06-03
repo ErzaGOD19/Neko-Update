@@ -1,0 +1,14 @@
+[Unit]
+Description=Neko Void Updater Background Sync
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/home/alexander/Neko-Update/neko-updater-core/target/release/neko-updater-core --sync-daemon
+Restart=always
+RestartSec=3600
+User=root
+
+[Install]
+WantedBy=multi-user.target

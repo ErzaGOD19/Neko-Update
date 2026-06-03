@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Main.qml</file>
+        <file alias="0xProtoNerdFont-Regular.ttf">../neko-updater-core/Data/fonts/0xProtoNerdFont-Regular.ttf</file>
+        <file alias="0xProtoNerdFont-Bold.ttf">../neko-updater-core/Data/fonts/0xProtoNerdFont-Bold.ttf</file>
+        <file alias="0xProtoNerdFont-Italic.ttf">../neko-updater-core/Data/fonts/0xProtoNerdFont-Italic.ttf</file>
+        <file alias="0xProtoNerdFontMono-Regular.ttf">../neko-updater-core/Data/fonts/0xProtoNerdFontMono-Regular.ttf</file>
+        <file alias="0xProtoNerdFontMono-Bold.ttf">../neko-updater-core/Data/fonts/0xProtoNerdFontMono-Bold.ttf</file>
+        <file alias="0xProtoNerdFontMono-Italic.ttf">../neko-updater-core/Data/fonts/0xProtoNerdFontMono-Italic.ttf</file>
+        <file alias="0xProtoNerdFontPropo-Regular.ttf">../neko-updater-core/Data/fonts/0xProtoNerdFontPropo-Regular.ttf</file>
+        <file alias="0xProtoNerdFontPropo-Bold.ttf">../neko-updater-core/Data/fonts/0xProtoNerdFontPropo-Bold.ttf</file>
+        <file alias="0xProtoNerdFontPropo-Italic.ttf">../neko-updater-core/Data/fonts/0xProtoNerdFontPropo-Italic.ttf</file>
+        <file alias="logo.png">../neko-updater-core/Data/logo.png</file>
+        <file alias="icon-normal.png">../neko-updater-core/Data/normal.png</file>
+        <file alias="icon-warning.png">../neko-updater-core/Data/warnig.png</file>
+        <file alias="icon-working.png">../neko-updater-core/Data/working.png</file>
+    </qresource>
+    <qresource prefix="/i18n">
+        <file>neko_es_ES.qm</file>
+    </qresource>
+</RCC>
