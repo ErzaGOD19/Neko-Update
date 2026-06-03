@@ -17,3 +17,4 @@ neko-updater-tray/*.qm
 # Binaries and packages
 *.xbps
 *.log
+neko-updater-tray/qrc_qml.cpp
