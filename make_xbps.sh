@@ -26,10 +26,10 @@ cp neko-updater-core/target/release/neko-updater-core pkg/usr/bin/
 cp neko-updater-tray/neko-updater-tray pkg/usr/bin/
 cp -r neko-updater-core/Data/* pkg/usr/share/neko-void/
 cp neko-updater-core/Data/logo.png pkg/usr/share/pixmaps/neko-updater.png
-cp neko-void-updater.desktop pkg/usr/share/applications/
-cp neko-void-updater.desktop pkg/etc/xdg/autostart/
-cp void.pkexec.xbps.policy pkg/usr/share/polkit-1/actions/org.neko_void.updater.policy
-cp neko-void-sync/run pkg/etc/sv/neko-void-sync/run
+cp files/neko-void-updater.desktop pkg/usr/share/applications/
+cp files/neko-void-updater.desktop pkg/etc/xdg/autostart/
+cp files/void.pkexec.xbps.policy pkg/usr/share/polkit-1/actions/org.neko_void.updater.policy
+cp files/neko-void-sync/run pkg/etc/sv/neko-void-sync/run
 chmod +x pkg/etc/sv/neko-void-sync/run
 
 # 4. Generar el paquete XBPS
