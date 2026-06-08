@@ -1,5 +1,5 @@
 # Template file for 'neko-void-updater'
-pkgname=neko-void-updater
+pkgname=Neko-Update
 version=2.2.2.6
 revision=1
 build_style=gnu-configure
