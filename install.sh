@@ -50,17 +50,17 @@ cp neko-updater-core/Data/logo.png "/usr/share/pixmaps/neko-updater.png"
 
 # 5. Instalar Política de Polkit
 echo "󰒓 Configurando permisos de sistema (Polkit)..."
-cp void.pkexec.xbps.policy "$POLICY_DIR/org.neko_void.updater.policy"
+cp files/void.pkexec.xbps.policy "$POLICY_DIR/org.neko_void.updater.policy"
 
 # 6. Instalar archivos Desktop y Autostart
 echo "󱐋 Configurando lanzadores..."
-cp neko-void-updater.desktop "$DESKTOP_DIR/"
-cp neko-void-updater.desktop "$AUTOSTART_DIR/"
+cp files/neko-void-updater.desktop "$DESKTOP_DIR/"
+cp files/neko-void-updater.desktop "$AUTOSTART_DIR/"
 
 # 7. Instalar servicio Runit
 echo "󰒓 Instalando servicio de sincronización (Runit)..."
 mkdir -p /etc/sv/neko-void-sync
-cp neko-void-sync/run /etc/sv/neko-void-sync/run
+cp files/neko-void-sync/run /etc/sv/neko-void-sync/run
 chmod +x /etc/sv/neko-void-sync/run
 
 # 8. Actualizar base de datos de iconos
