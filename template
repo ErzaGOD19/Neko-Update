@@ -26,6 +26,7 @@ do_build() {
     make
     cd ..
 }
+
 do_install() {
     # Binarios
     vbin neko-updater-core/target/release/neko-updater-core
@@ -36,15 +37,15 @@ do_install() {
     cp -r neko-updater-core/Data/* "${DESTDIR}/usr/share/neko-void/"
     vinstall neko-updater-core/Data/logo.png 644 usr/share/pixmaps neko-updater.png
 
-    # Política de Polkit
+    # Política de Polkit (Añade la ruta correcta al archivo origen)
     vmkdir usr/share/polkit-1/actions
-    vinstall void.pkexec.xbps.policy 644 usr/share/polkit-1/actions org.neko_void.updater.policy
+    vinstall RUTA_CORRECTA/void.pkexec.xbps.policy 644 usr/share/polkit-1/actions org.neko_void.updater.policy
 
-    # Desktop entry y autostart
-    vinstall neko-void-updater.desktop 644 usr/share/applications
+    # Desktop entry y autostart (Añade la ruta correcta al archivo origen)
+    vinstall RUTA_CORRECTA/neko-void-updater.desktop 644 usr/share/applications
     vmkdir etc/xdg/autostart
-    vinstall neko-void-updater.desktop 644 etc/xdg/autostart
+    vinstall RUTA_CORRECTA/neko-void-updater.desktop 644 etc/xdg/autostart
 
-    # Servicio Runit
-    vsv neko-void-sync
+    # Servicio Runit (Añade la ruta correcta a la carpeta del servicio origen)
+    vsv RUTA_CORRECTA/neko-void-sync
 }
