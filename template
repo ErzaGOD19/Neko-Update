@@ -10,7 +10,7 @@ short_desc="Neko Void Updater - Sistema de actualización para Void Linux"
 maintainer="Erzagod & JavierC"
 license="GPL-3.0-or-later"
 homepage="https://github.com/ErzaGOD19/Neko-Update"
-distfiles="https://github.com/ErzaGOD19/Neko-Update/archive/main.tar.gz"
+distfiles="https://github.com/ErzaGOD19/Neko-Update/archive/refs/tags/${version}.tar.gz"
 checksum=SKIP
 
 do_build() {
