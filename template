@@ -20,6 +20,7 @@ do_build() {
 
     # Construir tray (Qt)
     cd neko-updater-tray
+    lrelease neko-updater-tray.pro
     qmake neko-updater-tray.pro
     make
     cd ..
