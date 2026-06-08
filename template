@@ -2,8 +2,8 @@
 pkgname=Neko-Update
 version=2.2.2.6
 revision=1
-hostmakedepends="cargo rust qt5-host-tools make pkg-config"
-makedepends="rust-std qt5-devel qt5-declarative-devel qt5-quickcontrols2-devel"
+hostmakedepends="cargo rust qt6-base qt6-tools make pkg-config"
+makedepends="rust-std qt6-base-devel qt6-declarative-devel"
 depends="polkit runit dbus"
 short_desc="Neko Void Updater - Sistema de actualización para Void Linux"
 maintainer="Erzagod & JavierC"
@@ -18,21 +18,13 @@ do_build() {
     cargo build --release
     cd ..
 
-    # Construir tray (Qt)
+    # Construir tray (Qt6)
     cd neko-updater-tray
-    
-    # Compilar explícitamente los archivos de traducción en la raíz
-    for ts in i18n/*.ts; do
-        if [ -f "$ts" ]; then
-            lrelease-qt5 "$ts" -qm "$(basename "$ts" .ts).qm"
-        fi
-    done
-    
-    qmake neko-updater-tray.pro
+    lrelease6 neko-updater-tray.pro
+    qmake6 neko-updater-tray.pro
     make
     cd ..
 }
-
 do_install() {
     # Binarios
     vbin neko-updater-core/target/release/neko-updater-core
