@@ -2,7 +2,7 @@
 pkgname=Neko-Update
 version=2.2.2.6
 revision=1
-hostmakedepends="cargo rust qt6-base qt6-tools make pkg-config"
+hostmakedepends="cargo rust qt6-base qt6-tools-devel make pkg-config"
 makedepends="rust-std qt6-base-devel qt6-declarative-devel"
 depends="polkit runit dbus"
 short_desc="Neko Void Updater - Sistema de actualización para Void Linux"
@@ -25,6 +25,7 @@ do_build() {
     make
     cd ..
 }
+
 do_install() {
     # Binarios
     vbin neko-updater-core/target/release/neko-updater-core
