@@ -92,7 +92,7 @@ public:
         m_frequency = m_settings->value("frequency", "1d").toString();
         m_lastCheck = m_settings->value("lastCheck", 0).toLongLong();
 
-        connect(m_checkProcess, &QProcess::finished, this, &NekoUpdaterBackend::onCheckFinished);
+        connect(m_checkProcess, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &NekoUpdaterBackend::onCheckFinished);
         connect(&m_timer, &QTimer::timeout, this, &NekoUpdaterBackend::checkNow);
 
         // Periodically check if the background service is running
@@ -145,7 +145,7 @@ public slots:
         emit statusTextChanged();
         qDebug() << "Executing check:" << m_corePath;
 
-        m_checkProcess->start(m_corePath);
+        m_checkProcess->start(m_corePath, QStringList());
         if (!m_checkProcess->waitForStarted(3000)) {
             m_busy = false;
             emit busyChanged();
@@ -176,7 +176,7 @@ public slots:
         emit statusTextChanged();
 
         m_applyProcess = new QProcess(this);
-        connect(m_applyProcess, &QProcess::finished, this, &NekoUpdaterBackend::onApplyFinished);
+        connect(m_applyProcess, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &NekoUpdaterBackend::onApplyFinished);
         
         qDebug() << "Executing pkexec to apply updates";
         m_applyProcess->start("pkexec", QStringList{m_corePath, "--apply"});
@@ -213,7 +213,7 @@ public slots:
         emit statusTextChanged();
 
         m_applyProcess = new QProcess(this);
-        connect(m_applyProcess, &QProcess::finished, this, &NekoUpdaterBackend::onApplyFinished);
+        connect(m_applyProcess, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &NekoUpdaterBackend::onApplyFinished);
         
         qDebug() << "Executing pkexec for system cleaning";
         m_applyProcess->start("pkexec", QStringList{m_corePath, "--clean"});
