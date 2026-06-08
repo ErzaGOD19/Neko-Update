@@ -20,12 +20,18 @@ do_build() {
 
     # Construir tray (Qt6)
     cd neko-updater-tray
-    /usr/lib/qt6/bin/lrelease neko-updater-tray.pro
+    
+    # Compilar explícitamente los archivos de traducción en la raíz del tray
+    for ts in i18n/*.ts; do
+        if [ -f "$ts" ]; then
+            /usr/lib/qt6/bin/lrelease "$ts" -qm "$(basename "$ts" .ts).qm"
+        fi
+    done
+    
     /usr/lib/qt6/bin/qmake neko-updater-tray.pro
     make
     cd ..
 }
-
 do_install() {
     # Binarios
     vbin neko-updater-core/target/release/neko-updater-core
