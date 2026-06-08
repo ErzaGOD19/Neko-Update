@@ -1,5 +1,5 @@
---- neko-updater-tray/main.cpp
-+++ neko-updater-tray/main.cpp
+--- a/neko-updater-tray/main.cpp
++++ b/neko-updater-tray/main.cpp
 @@ -92,7 +92,7 @@
          m_frequency = m_settings->value("frequency", "1d").toString();
          m_lastCheck = m_settings->value("lastCheck", 0).toLongLong();
