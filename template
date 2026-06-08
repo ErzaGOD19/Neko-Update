@@ -11,7 +11,7 @@ maintainer="Erzagod & JavierC"
 license="GPL-3.0-or-later"
 homepage="https://github.com/ErzaGOD19/Neko-Update"
 distfiles="https://github.com/ErzaGOD19/Neko-Update/archive/refs/tags/${version}.tar.gz"
-checksum=SKIP
+checksum=e92b12a805a577cdbb305debc71888cb3514cb8ff3e2a1ee32963a6018af1282
 
 do_build() {
     # Construir core (Rust)
