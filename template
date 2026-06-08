@@ -1,0 +1,60 @@
+# Template file for 'neko-void-updater'
+pkgname=neko-void-updater
+version=2.2.2.6
+revision=1
+build_style=gnu-configure
+hostmakedepends="cargo rustc qt5-tools make pkg-config"
+makedepends="rust-std qt5-devel"
+depends="polkit runit dbus"
+short_desc="Neko Void Updater - Sistema de actualización para Void Linux"
+maintainer="Erzagod & JavierC"
+license="GPL-3.0-or-later"
+homepage="https://github.com/ErzaGOD19/Neko-Update"
+distfiles="https://github.com/ErzaGOD19/Neko-Update/archive/main.tar.gz"
+checksum=SKIP
+
+do_build() {
+    # Construir core (Rust)
+    cd neko-updater-core
+    cargo build --release
+    cd ..
+
+    # Construir tray (Qt)
+    cd neko-updater-tray
+    qmake neko-updater-tray.pro
+    make
+    cd ..
+}
+
+do_install() {
+    # Binarios
+    vbin neko-updater-core/target/release/neko-updater-core
+    vbin neko-updater-tray/neko-updater-tray
+
+    # Datos (iconos, recursos)
+    vmkdir usr/share/neko-void
+    cp -r neko-updater-core/Data/* "${DESTDIR}/usr/share/neko-void/"
+    vinstall neko-updater-core/Data/logo.png 644 usr/share/pixmaps neko-updater.png
+
+    # Política de Polkit
+    vmkdir usr/share/polkit-1/actions
+    vinstall void.pkexec.xbps.policy 644 usr/share/polkit-1/actions org.neko_void.updater.policy
+
+    # Desktop entry y autostart
+    vinstall neko-void-updater.desktop 644 usr/share/applications
+    vmkdir etc/xdg/autostart
+    vcopy neko-void-updater.desktop etc/xdg/autostart
+
+    # Servicio Runit
+    vmkdir etc/sv/neko-void-sync
+    vinstall neko-void-sync/run 755 etc/sv/neko-void-sync run
+
+    # Actualizar caché de iconos (post-install hook lo hará automáticamente)
+}
+
+post_install() {
+    # Opcional: crear enlace simbólico para activar servicio (solo si se desea automático)
+    # El usuario deberá hacerlo manualmente: ln -s /etc/sv/neko-void-sync /var/service/
+    vmkdir var/service
+    # No se activa por defecto para evitar conflictos.
+}
