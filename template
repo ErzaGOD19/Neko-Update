@@ -2,7 +2,6 @@
 pkgname=Neko-Update
 version=2.2.2.6
 revision=1
-build_style=gnu-configure
 hostmakedepends="cargo rust qt5-tools make pkg-config"
 makedepends="rust-std qt5-devel"
 depends="polkit runit dbus"
@@ -43,18 +42,8 @@ do_install() {
     # Desktop entry y autostart
     vinstall neko-void-updater.desktop 644 usr/share/applications
     vmkdir etc/xdg/autostart
-    vcopy neko-void-updater.desktop etc/xdg/autostart
+    vinstall neko-void-updater.desktop 644 etc/xdg/autostart
 
     # Servicio Runit
-    vmkdir etc/sv/neko-void-sync
-    vinstall neko-void-sync/run 755 etc/sv/neko-void-sync run
-
-    # Actualizar caché de iconos (post-install hook lo hará automáticamente)
-}
-
-post_install() {
-    # Opcional: crear enlace simbólico para activar servicio (solo si se desea automático)
-    # El usuario deberá hacerlo manualmente: ln -s /etc/sv/neko-void-sync /var/service/
-    vmkdir var/service
-    # No se activa por defecto para evitar conflictos.
+    vsv neko-void-sync
 }
