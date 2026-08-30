@@ -206,6 +206,8 @@ fn check_updates() -> io::Result<()> {
         let count = parse_update_count(&output);
         log(&format!("XBPS encontró {} actualizaciones", count));
         total_count += count;
+        // Mostrar la salida de xbps en la terminal para que el usuario vea las actualizaciones
+        print_update_output("XBPS", &output);
     }
 
     if Path::new("/usr/bin/flatpak").exists() {
@@ -226,6 +228,8 @@ fn check_updates() -> io::Result<()> {
                  let final_flatpak_count = if flatpak_count > 0 { flatpak_count.saturating_sub(1) } else { 0 };
                  log(&format!("Flatpak encontró {} actualizaciones", final_flatpak_count));
                  total_count += final_flatpak_count;
+                 // Mostrar la salida de flatpak en la terminal
+                 print_update_output("Flatpak", &output);
              }
         }
     }
@@ -252,6 +256,11 @@ fn parse_update_count(output: &str) -> usize {
         }
     }
     count
+}
+
+fn print_update_output(label: &str, output: &str) {
+    println!("[{}]", label);
+    println!("{}", output);
 }
 
 fn write_count_file(count: usize) -> io::Result<()> {

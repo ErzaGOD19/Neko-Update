@@ -52,6 +52,13 @@ cp -r neko-updater-core/Data/* "$DATA_DIR/"
 # Usar el logo en SVG como icono de la app
 cp neko-updater-core/Data/logo.png "/usr/share/pixmaps/neko-updater.png"
 
+# Instalar traducciones (.qm)
+if [ -d "neko-updater-tray/build/translations" ]; then
+    echo "󰄛 Instalando traducciones..."
+    mkdir -p "$DATA_DIR/translations"
+    cp neko-updater-tray/build/translations/*.qm "$DATA_DIR/translations/" 2>/dev/null || true
+fi
+
 # 5. Instalar Política de Polkit
 echo "󰒓 Configurando permisos de sistema (Polkit)..."
 cp files/void.pkexec.xbps.policy "$POLICY_DIR/org.neko_void.updater.policy"

@@ -9,6 +9,8 @@
 #include <QAction>
 #include <QIcon>
 #include <QFileSystemWatcher>
+#include <QTranslator>
+#include <QLocale>
 #include <malloc.h>
 #include <unistd.h>
 
@@ -121,69 +123,71 @@ private slots:
         malloc_trim(0); // Free memory back to OS
     }
 
-    void runCoreCommand(const QString &arg) {
-        if (isWorking) return;
-        isWorking = true;
-        updateStatus();
-        
+    QString findTerminal() {
+        // Terminales soportadas: alacritty, foot, mate-terminal, xfce4-terminal, st, kitty
+        QStringList terms = {"alacritty", "foot", "kitty", "mate-terminal", "xfce4-terminal", "st", "xterm"};
+        for (const QString &t : terms) {
+            if (QFile::exists("/usr/bin/" + t) || QFile::exists("/usr/local/bin/" + t)) {
+                return t;
+            }
+        }
+        return "";
+    }
+
+    void launchInTerminal(const QString &script, const QString &fallbackArg) {
         QProcess *process = new QProcess(this);
         connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, [this, process]() {
             isWorking = false;
             updateStatus();
             process->deleteLater();
         });
-        
-        // Detectar si estamos en un entorno con Agente Polkit gráfico
-        bool hasPolkit = !qEnvironmentVariable("XDG_SESSION_TYPE").isEmpty() && QFile::exists("/usr/bin/pkexec");
 
-        if (hasPolkit && false) { 
-            // Podríamos intentar pkexec directamente, pero si falla falla silencioso.
-            // Mejor delegar al wrapper inteligente.
+        QString termCmd = findTerminal();
+        if (!termCmd.isEmpty()) {
+            // Todas las terminales soportadas aceptan -e para ejecutar un comando
+            process->start(termCmd, {"-e", "bash", "-lc", script});
+        } else {
+            // Fallback sin terminal: ejecutar directamente
+            process->start("/usr/bin/neko-updater-core", {fallbackArg});
         }
+    }
 
-        // Wrapper inteligente que busca terminales y lanza sudo, doas o pkexec
+    void runCoreCommand(const QString &arg) {
+        if (isWorking) return;
+        isWorking = true;
+        updateStatus();
+
+        // Wrapper que eleva privilegios usando pkexec (Polkit), con doas/sudo como respaldo
         QString script = QString(
             "cmd='/usr/bin/neko-updater-core %1'; "
-            "if command -v doas >/dev/null 2>&1 && [ -f /etc/doas.conf ]; then elevate='doas'; "
-            "elif command -v sudo >/dev/null 2>&1 && [ -f /etc/sudoers ]; then elevate='sudo'; "
-            "elif command -v pkexec >/dev/null 2>&1; then elevate='pkexec'; "
-            "else echo 'No escalador de privilegios configurado'; sleep 5; exit 1; fi; "
-            "$elevate $cmd; "
-            "echo \"Presiona Enter para cerrar...\"; read dummy"
-        ).arg(arg);
+            "if command -v pkexec >/dev/null 2>&1; then "
+            "    pkexec --action-id org.neko_void.updater.policy $cmd; "
+            "elif command -v doas >/dev/null 2>&1 && [ -f /etc/doas.conf ]; then "
+            "    doas $cmd; "
+            "elif command -v sudo >/dev/null 2>&1 && [ -f /etc/sudoers ]; then "
+            "    sudo $cmd; "
+            "else echo '%2'; sleep 5; exit 1; fi; "
+            "echo \"%3\"; read dummy"
+        ).arg(arg)
+         .arg(tr("No escalador de privilegios configurado"))
+         .arg(tr("Presiona Enter para cerrar..."));
 
-        QStringList terms = {"alacritty", "kitty", "konsole", "gnome-terminal", "xfce4-terminal", "mate-terminal", "lxterminal", "st", "xterm"};
-        QString termCmd = "";
-        for (const QString &t : terms) {
-            if (QFile::exists("/usr/bin/" + t) || QFile::exists("/usr/local/bin/" + t)) {
-                termCmd = t;
-                break;
-            }
-        }
-
-        if (!termCmd.isEmpty()) {
-            if (termCmd == "gnome-terminal" || termCmd == "mate-terminal" || termCmd == "xfce4-terminal" || termCmd == "lxterminal") {
-                process->start(termCmd, {"--", "bash", "-c", script});
-            } else {
-                process->start(termCmd, {"-e", "bash", "-c", script});
-            }
-        } else {
-            // Fallback: intentar ejecutar directo con pkexec si no hay terminal
-            process->start("pkexec", {"/usr/bin/neko-updater-core", arg});
-        }
+        launchInTerminal(script, arg);
     }
 
     void checkUpdates() {
         if (isWorking) return;
         isWorking = true;
         updateStatus();
-        QProcess *process = new QProcess(this);
-        connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, [this, process]() {
-            isWorking = false;
-            updateStatus();
-            process->deleteLater();
-        });
-        process->start("/usr/bin/neko-updater-core", QStringList());
+
+        // La comprobación de actualizaciones no requiere privilegios de root,
+        // así que no se usa sudo/doas/pkexec y no se pide clave.
+        QString script = QString(
+            "/usr/bin/neko-updater-core; "
+            "echo \"%1\"; read dummy"
+        ).arg(tr("Comprobación finalizada. Presiona Enter para cerrar..."));
+
+        launchInTerminal(script, "");
     }
 
     void applyUpdates() {
@@ -295,6 +299,32 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
     app.setApplicationName("Neko Void Updater");
     app.setQuitOnLastWindowClosed(false);
+
+    // i18n: detect system locale and load matching translation automatically.
+    // Supported: English (default), German, Portuguese, Italian, Spanish, Japanese.
+    QString lang = QLocale::system().name().left(2).toLower();
+    QStringList supported = {"de", "pt", "it", "es", "ja"};
+    QTranslator translator;
+    bool loaded = false;
+    if (supported.contains(lang)) {
+        QString qmName = QString("neko_%1.qm").arg(lang);
+        QStringList qmCandidates = {
+            QApplication::applicationDirPath() + "/../share/neko-void/translations/" + qmName,
+            "/usr/share/neko-void/translations/" + qmName,
+            QApplication::applicationDirPath() + "/translations/" + qmName,
+            "neko-updater-tray/translations/" + qmName,
+            "translations/" + qmName,
+        };
+        for (const QString &path : qmCandidates) {
+            if (QFile::exists(path) && translator.load(path)) {
+                loaded = true;
+                break;
+            }
+        }
+    }
+    if (loaded) {
+        app.installTranslator(&translator);
+    }
 
     NekoTray tray;
     return app.exec();

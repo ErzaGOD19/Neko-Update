@@ -37,6 +37,15 @@ do_install() {
     cp -r neko-updater-core/Data/* "${DESTDIR}/usr/share/neko-void/"
     vinstall neko-updater-core/Data/logo.png 644 usr/share/pixmaps neko-updater.png
 
+    # Traducciones (.qm)
+    if [ -d neko-updater-tray/build/translations ]; then
+        vmkdir usr/share/neko-void/translations
+        vinstall neko-updater-tray/build/translations/neko_de.qm 644 usr/share/neko-void/translations
+        vinstall neko-updater-tray/build/translations/neko_pt.qm 644 usr/share/neko-void/translations
+        vinstall neko-updater-tray/build/translations/neko_it.qm 644 usr/share/neko-void/translations
+        vinstall neko-updater-tray/build/translations/neko_ja.qm 644 usr/share/neko-void/translations
+    fi
+
     # Política de Polkit
     vmkdir usr/share/polkit-1/actions
     vinstall "files/void.pkexec.xbps.policy" 644 usr/share/polkit-1/actions org.neko_void.updater.policy
