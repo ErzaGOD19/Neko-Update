@@ -219,7 +219,7 @@ private slots:
         about.setTextFormat(Qt::RichText);
         about.setText(
             "<h3>Neko Void Updater</h3>"
-            "<p><b>" + tr("Versión") + ":</b> 3.0.0</p>"
+            "<p><b>" + tr("Versión") + ":</b> 5.0.0</p>"
             "<p><b>" + tr("Gestor de actualizaciones para Void Linux") + "</b></p>"
             "<p>" + tr("Motor de actualizaciones XBPS y Flatpak con integración en la bandeja del sistema, "
             "actualizaciones automáticas y herramientas de mantenimiento.") + "</p>"
