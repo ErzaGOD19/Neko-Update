@@ -1,0 +1,20 @@
+# Build directories
+target/
+neko-updater-core/target/
+neko-updater-tray/Makefile
+neko-updater-tray/*.o
+neko-updater-tray/*.moc
+neko-updater-tray/neko-updater-tray
+neko-updater-tray/.qmake.stash
+neko-updater-tray/moc_*
+neko-updater-tray/*.qm
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.pro.user
+
+# Binaries and packages
+*.xbps
+*.log
+neko-updater-tray/qrc_qml.cpp

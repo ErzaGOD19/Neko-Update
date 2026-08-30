@@ -1,0 +1,11 @@
+[package]
+name = "neko-updater-core"
+version = "0.1.0"
+edition = "2021"
+authors = ["ErzaGOD19 - Trinity Community <https://github.com/ErzaGOD19>"]
+description = "Daemon core for Neko Void Updater"
+license = "MIT"
+
+[dependencies]
+fs2 = "0.4"
+chrono = "0.4"
