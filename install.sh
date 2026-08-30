@@ -40,7 +40,7 @@ fi
 if [ -f "neko-updater-tray/neko-updater-tray" ]; then
     cp "neko-updater-tray/neko-updater-tray" "$BIN_DIR/neko-updater-tray"
 else
-    echo "Aviso: No se encontró el binario del tray compilado. Compílalo con qmake y make primero."
+    echo "Aviso: No se encontró el binario del tray compilado. Compílalo con cmake y make primero."
 fi
 
 chmod +x "$BIN_DIR/neko-updater-core"

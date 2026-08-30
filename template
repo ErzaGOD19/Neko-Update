@@ -2,15 +2,15 @@
 pkgname=Neko-Update
 version=3.0.0
 revision=1
-hostmakedepends="cargo rust qt6-base qt6-tools-devel make pkg-config"
+hostmakedepends="cargo rust qt6-base qt6-tools-devel make pkg-config cmake"
 makedepends="rust-std qt6-base-devel qt6-declarative-devel"
 depends="polkit runit dbus"
 short_desc="Neko Void Updater - Sistema de actualización para Void Linux"
-maintainer="Erzagod & JavierC"
+maintainer="ANOMALI0x00"
 license="GPL-3.0-or-later"
-homepage="https://github.com/ErzaGOD19/Neko-Update"
-distfiles="https://github.com/ErzaGOD19/Neko-Update/archive/refs/tags/${version}.tar.gz"
-checksum=e92b12a805a577cdbb305debc71888cb3514cb8ff3e2a1ee32963a6018af1282
+homepage="https://github.com/ANOMALI0x00/Neko-Update"
+distfiles="https://github.com/ANOMALI0x00/Neko-Update/archive/refs/tags/${version}.tar.gz"
+checksum=90a41b649be4b40c415182e4226d18e9720ffea35bbf46d31a3e48e7f9a5cfa2
 
 do_build() {
     # Construir core (Rust)
@@ -20,17 +20,17 @@ do_build() {
 
     # Construir tray (Qt6)
     cd neko-updater-tray
-    /usr/lib/qt6/bin/lrelease neko_es.ts -qm neko_es_ES.qm
-    
-    /usr/lib/qt6/bin/qmake neko-updater-tray.pro
+    mkdir -p build
+    cd build
+    cmake ..
     make
-    cd ..
+    cd ../..
 }
 
 do_install() {
     # Binarios
     vbin neko-updater-core/target/release/neko-updater-core
-    vbin neko-updater-tray/neko-updater-tray
+    vbin neko-updater-tray/build/neko-updater-tray
 
     # Datos (iconos, recursos)
     vmkdir usr/share/neko-void
