@@ -147,12 +147,19 @@ private slots:
         });
 
         QString termCmd = findTerminal();
-        if (!termCmd.isEmpty()) {
-            // Todas las terminales soportadas aceptan -e para ejecutar un comando
-            process->start(termCmd, {"-e", "bash", "-lc", script});
-        } else {
+        if (termCmd.isEmpty()) {
             // Fallback sin terminal: ejecutar directamente
             process->start("/usr/bin/neko-updater-core", {fallbackArg});
+            return;
+        }
+
+        // Sintaxis por terminal:
+        //  - alacritty/kitty/foot/st/xterm: -e seguido de argv separados
+        //  - mate-terminal/xfce4-terminal: -e toma un UNICO string de comando
+        if (termCmd == "mate-terminal" || termCmd == "xfce4-terminal") {
+            process->start(termCmd, {"-e", "bash -lc \"" + script + "\""});
+        } else {
+            process->start(termCmd, {"-e", "bash", "-lc", script});
         }
     }
 
