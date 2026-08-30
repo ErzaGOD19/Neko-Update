@@ -6,7 +6,7 @@ hostmakedepends="cargo rust qt6-base qt6-tools-devel make pkg-config cmake"
 makedepends="rust-std qt6-base-devel qt6-declarative-devel"
 depends="polkit runit dbus"
 short_desc="Neko Void Updater - Sistema de actualización para Void Linux"
-maintainer="ANOMALI0x00"
+maintainer="ANOMALI0x00 <ANOMALI0x00@users.noreply.github.com>"
 license="GPL-3.0-or-later"
 homepage="https://github.com/ANOMALI0x00/Neko-Update"
 distfiles="https://github.com/ANOMALI0x00/Neko-Update/archive/refs/tags/${version}.tar.gz"
@@ -39,11 +39,13 @@ do_install() {
 
     # Política de Polkit
     vmkdir usr/share/polkit-1/actions
-    vinstall "${FILESDIR}/void.pkexec.xbps.policy" 644 usr/share/polkit-1/actions org.neko_void.updater.policy
+    vinstall "files/void.pkexec.xbps.policy" 644 usr/share/polkit-1/actions org.neko_void.updater.policy
 
-    vinstall "${FILESDIR}/neko-void-updater.desktop" 644 usr/share/applications
+    vinstall "files/neko-void-updater.desktop" 644 usr/share/applications
     vmkdir etc/xdg/autostart
-    vinstall "${FILESDIR}/neko-void-updater.desktop" 644 etc/xdg/autostart
+    vinstall "files/neko-void-updater.desktop" 644 etc/xdg/autostart
 
-    vsv neko-void-sync
+    # Runit Service
+    vmkdir etc/sv/neko-void-sync
+    vinstall "files/neko-void-sync/run" 755 etc/sv/neko-void-sync run
 }
