@@ -279,8 +279,10 @@ fn clean_system() -> io::Result<()> {
     let _ = run_command("xbps-remove", &["-Ooy"], false);
 
     if Path::new("/usr/bin/flatpak").exists() {
-        log("Limpiando basura y dependencias huérfanas de Flatpak...");
-        let _ = run_command("flatpak", &["uninstall", "--unused", "-y"], false);
+        log("Limpiando basura y dependencias huérfanas de Flatpak (usuario)...");
+        let _ = run_command("flatpak", &["uninstall", "--unused", "--user", "-y"], false);
+        log("Limpiando basura y dependencias huérfanas de Flatpak (sistema)...");
+        let _ = run_command("flatpak", &["uninstall", "--unused", "--system", "-y"], false);
     }
 
     if let Ok(user) = env::var("SUDO_USER").or_else(|_| env::var("DOAS_USER")) {

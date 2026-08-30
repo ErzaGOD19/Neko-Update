@@ -11,6 +11,10 @@
 #include <QFileSystemWatcher>
 #include <QTranslator>
 #include <QLocale>
+#include <QMessageBox>
+#include <QDesktopServices>
+#include <QUrl>
+#include <QPixmap>
 #include <malloc.h>
 #include <unistd.h>
 
@@ -161,7 +165,7 @@ private slots:
         QString script = QString(
             "cmd='/usr/bin/neko-updater-core %1'; "
             "if command -v pkexec >/dev/null 2>&1; then "
-            "    pkexec --action-id org.neko_void.updater.policy $cmd; "
+            "    pkexec $cmd; "
             "elif command -v doas >/dev/null 2>&1 && [ -f /etc/doas.conf ]; then "
             "    doas $cmd; "
             "elif command -v sudo >/dev/null 2>&1 && [ -f /etc/sudoers ]; then "
@@ -198,6 +202,26 @@ private slots:
         runCoreCommand("--clean");
     }
 
+    void showAbout() {
+        QMessageBox about;
+        about.setWindowTitle(tr("Acerca de Neko Void Updater"));
+        QString logoPath = "/usr/share/neko-void/logo.png";
+        if (QFile::exists(logoPath)) {
+            about.setIconPixmap(QPixmap(logoPath));
+        }
+        about.setTextFormat(Qt::RichText);
+        about.setText(
+            "<h3>Neko Void Updater</h3>"
+            "<p><b>" + tr("Versión") + ":</b> 3.0.0</p>"
+            "<p><b>" + tr("Gestor de actualizaciones para Void Linux") + "</b></p>"
+            "<p>" + tr("Motor de actualizaciones XBPS y Flatpak con integración en la bandeja del sistema, "
+            "actualizaciones automáticas y herramientas de mantenimiento.") + "</p>"
+            "<p><b>" + tr("Repositorio") + ":</b> "
+            "<a href=\"https://github.com/Neko-Void-Linux/Neko-Update\">github.com/Neko-Void-Linux/Neko-Update</a></p>"
+        );
+        about.exec();
+    }
+
     void setFrequency(const QString &freq) {
         QString configDir = QDir::homePath() + "/.config/NekoVoid";
         QDir().mkpath(configDir);
@@ -224,6 +248,9 @@ private:
 
         cleanAction = new QAction(tr("Limpiar sistema"), this);
         connect(cleanAction, &QAction::triggered, this, &NekoTray::cleanSystem);
+
+        aboutAction = new QAction(tr("Acerca de"), this);
+        connect(aboutAction, &QAction::triggered, this, &NekoTray::showAbout);
 
         quitAction = new QAction(tr("Salir"), this);
         connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
@@ -272,6 +299,7 @@ private:
         
         trayMenu->addMenu(freqMenu);
         trayMenu->addSeparator();
+        trayMenu->addAction(aboutAction);
         trayMenu->addAction(quitAction);
 
         trayIcon = new QSystemTrayIcon(this);
@@ -285,6 +313,7 @@ private:
     QAction *checkAction;
     QAction *applyAction;
     QAction *cleanAction;
+    QAction *aboutAction;
     QAction *quitAction;
     QAction *f12h;
     QAction *f1d;

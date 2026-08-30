@@ -91,5 +91,29 @@
         <source>No escalador de privilegios configurado</source>
         <translation>Nenhuma ferramenta de privilégio configurada</translation>
     </message>
+    <message>
+        <source>Acerca de</source>
+        <translation>Sobre</translation>
+    </message>
+    <message>
+        <source>Acerca de Neko Void Updater</source>
+        <translation>Sobre o Neko Void Updater</translation>
+    </message>
+    <message>
+        <source>Versión</source>
+        <translation>Versão</translation>
+    </message>
+    <message>
+        <source>Gestor de actualizaciones para Void Linux</source>
+        <translation>Gerenciador de atualizações para Void Linux</translation>
+    </message>
+    <message>
+        <source>Motor de actualizaciones XBPS y Flatpak con integración en la bandeja del sistema, actualizaciones automáticas y herramientas de mantenimiento.</source>
+        <translation>Mecanismo de atualizações XBPS e Flatpak com integração na bandeja do sistema, atualizações automáticas e ferramentas de manutenção.</translation>
+    </message>
+    <message>
+        <source>Repositorio</source>
+        <translation>Repositório</translation>
+    </message>
 </context>
 </TS>

@@ -91,5 +91,29 @@
         <source>No escalador de privilegios configurado</source>
         <translation>Kein Berechtigungstool konfiguriert</translation>
     </message>
+    <message>
+        <source>Acerca de</source>
+        <translation>Über</translation>
+    </message>
+    <message>
+        <source>Acerca de Neko Void Updater</source>
+        <translation>Über Neko Void Updater</translation>
+    </message>
+    <message>
+        <source>Versión</source>
+        <translation>Version</translation>
+    </message>
+    <message>
+        <source>Gestor de actualizaciones para Void Linux</source>
+        <translation>Update-Manager für Void Linux</translation>
+    </message>
+    <message>
+        <source>Motor de actualizaciones XBPS y Flatpak con integración en la bandeja del sistema, actualizaciones automáticas y herramientas de mantenimiento.</source>
+        <translation>XBPS- und Flatpak-Update-Engine mit System-Tray-Integration, automatischen Updates und Wartungswerkzeugen.</translation>
+    </message>
+    <message>
+        <source>Repositorio</source>
+        <translation>Repository</translation>
+    </message>
 </context>
 </TS>
