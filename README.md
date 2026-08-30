@@ -36,6 +36,14 @@ To compile and install Neko Void Updater, you need the following packages instal
 * **Deep Maintenance:** Built-in tools to remove orphaned packages and clear the XBPS package cache.
 * **Security Integration:** Native integration with Polkit (pkexec) for operations requiring elevated privileges.
 
+## Post-Installation (Enabling the Daemon)
+By default, Void Linux does not enable new services automatically. To enable the Neko background synchronization daemon, you must link it to the runit service directory:
+
+```bash
+sudo ln -s /etc/sv/neko-void-sync /var/service/
+```
+Once linked, the service will start automatically and run in the background.
+
 ## Usage
 * **Left Click:** Toggles the visibility of the primary control window.
 * **Right Click:** Opens the context menu providing fast access to check frequencies, maintenance tools, and application exit options.
