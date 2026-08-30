@@ -1,5 +1,0 @@
-/home/anomali/STORAGE/Proyectos/Neko-Update/neko-updater-tray/build/CMakeFiles/neko-updater-tray.dir
-/home/anomali/STORAGE/Proyectos/Neko-Update/neko-updater-tray/build/CMakeFiles/edit_cache.dir
-/home/anomali/STORAGE/Proyectos/Neko-Update/neko-updater-tray/build/CMakeFiles/rebuild_cache.dir
-/home/anomali/STORAGE/Proyectos/Neko-Update/neko-updater-tray/build/CMakeFiles/neko-updater-tray_autogen_timestamp_deps.dir
-/home/anomali/STORAGE/Proyectos/Neko-Update/neko-updater-tray/build/CMakeFiles/neko-updater-tray_autogen.dir

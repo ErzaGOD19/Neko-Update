@@ -18,3 +18,4 @@ neko-updater-tray/*.qm
 *.xbps
 *.log
 neko-updater-tray/qrc_qml.cpp
+neko-updater-tray/build/

@@ -1,6 +1,6 @@
 # Template file for 'neko-void-updater'
 pkgname=Neko-Update
-version=2.2.2.6
+version=3.0.0
 revision=1
 hostmakedepends="cargo rust qt6-base qt6-tools-devel make pkg-config"
 makedepends="rust-std qt6-base-devel qt6-declarative-devel"
