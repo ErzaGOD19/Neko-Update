@@ -36,7 +36,16 @@ public:
         }
         watcher->addPath("/tmp/neko_updates_count");
         connect(watcher, &QFileSystemWatcher::fileChanged, this, &NekoTray::onFileChanged);
-        
+
+        // Mantener la memoria del heap devuelta al sistema de forma periódica
+        // (la app corre como daemon en la bandeja durante días).
+        heapTimer = new QTimer(this);
+        connect(heapTimer, &QTimer::timeout, this, [this]() {
+            malloc_trim(0);
+            malloc_trim(1024 * 1024); // intentar liberar fragmentos >= 1MB
+        });
+        heapTimer->start(15 * 60 * 1000); // cada 15 minutos
+
         updateStatus();
         trayIcon->show();
         malloc_trim(0); // Free startup memory
@@ -328,6 +337,7 @@ private:
     QAction *f1w;
     QAction *fman;
     QFileSystemWatcher *watcher;
+    QTimer *heapTimer;
     bool isWorking;
 };
 
