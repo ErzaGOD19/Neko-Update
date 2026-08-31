@@ -32,6 +32,7 @@ uninstall:
 	rm -f /usr/bin/neko-updater-core
 	rm -f /usr/bin/neko-updater-tray
 	rm -rf /usr/share/neko-void
+	rm -rf /usr/share/neko-void/translations
 	rm -f /usr/share/icons/hicolor/scalable/apps/normal.png
 	rm -f /usr/share/icons/hicolor/scalable/apps/warnig.png
 	rm -f /usr/share/icons/hicolor/scalable/apps/working.png

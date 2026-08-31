@@ -32,13 +32,13 @@ if [ -L /var/service/neko-void-sync ]; then
     killall neko-updater-core 2>/dev/null || true
 fi
 if [ -f "neko-updater-core/target/release/neko-updater-core" ]; then
-    cp "neko-updater-core/target/release/neko-updater-core" "$BIN_DIR/neko-updater-core"
+    cp -f "neko-updater-core/target/release/neko-updater-core" "$BIN_DIR/neko-updater-core"
 else
     echo "Aviso: No se encontró el binario de core compilado. Compílalo con 'cargo build --release' primero."
 fi
 
 if [ -f "neko-updater-tray/neko-updater-tray" ]; then
-    cp "neko-updater-tray/neko-updater-tray" "$BIN_DIR/neko-updater-tray"
+    cp -f "neko-updater-tray/neko-updater-tray" "$BIN_DIR/neko-updater-tray"
 else
     echo "Aviso: No se encontró el binario del tray compilado. Compílalo con cmake y make primero."
 fi
@@ -51,6 +51,13 @@ echo "󰄛 Instalando recursos visuales..."
 cp -r neko-updater-core/Data/* "$DATA_DIR/"
 # Usar el logo en SVG como icono de la app
 cp neko-updater-core/Data/logo.png "/usr/share/pixmaps/neko-updater.png"
+
+# Instalar traducciones (.qm)
+if [ -d "neko-updater-tray/build/translations" ]; then
+    echo "󰄛 Instalando traducciones..."
+    mkdir -p "$DATA_DIR/translations"
+    cp -f neko-updater-tray/build/translations/*.qm "$DATA_DIR/translations/" 2>/dev/null || true
+fi
 
 # 5. Instalar Política de Polkit
 echo "󰒓 Configurando permisos de sistema (Polkit)..."
